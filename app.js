@@ -20,6 +20,7 @@ class Node {
     isVisible;
     isCollapse;
     hasAttr;
+    isHoverOn
     constructor(element, parent = null) {
         this.element = element;
         this.children = [];
@@ -27,6 +28,7 @@ class Node {
         this.isVisible = true;
         this.isCollapse = false;
         this.hasAttr = false;
+        this.isHoverOn = false
     }
 }
 
@@ -79,6 +81,14 @@ function drawTree() {
             if (!eleNode.parent.isVisible || eleNode.isCollapse) {
                 continue;
             }
+            if (eleNode.isHoverOn) {
+                context.fillStyle = 'rgba(0,0,0,0.6)';
+                context.fillRect(eleNode.x - 200 - radius, eleNode.y, 200, 200);
+                context.fillStyle = 'red';
+                context.fillText("test", eleNode.x - 180, eleNode.y + 30);
+                context.closePath();
+            }
+
 
             context.beginPath();
             context.fillStyle = 'black';
@@ -199,7 +209,6 @@ function createAttrRect(eleNode) {
     for (let i = 0; i < attr.length; i++) {
         attrStr += `${attr[i].name}: ${attr[i].value} \n`;
     }
-    console.log(attrStr);
 
     context.beginPath();
     context.fillStyle = 'rgba(0,0,0,0.6)';
@@ -216,11 +225,27 @@ canvas.addEventListener('mousemove', (e) => {
 });
 
 function onNode(mouseX, mouseY) {
-    console.log("test")
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[i].length; j++) {
             const eleNode = arr[i][j];
+            let marginLeftX = eleNode.x - (radius);
+            let marginRightX = eleNode.x + (radius);
 
+            let marginBottomY = eleNode.y - (radius);
+            let marginTopY = eleNode.y + (radius);
+
+            if (mouseX <= marginRightX &&
+                mouseX >= marginLeftX &&
+                mouseY <= marginTopY &&
+                mouseY >= marginBottomY
+            ) {
+                // console.log("test")
+                eleNode.isHoverOn = true;
+                context.clearRect(0, 0, cnvWidth, cnvWidth);
+                y = 50;
+                drawTree();
+
+            }
         }
     }
 }
