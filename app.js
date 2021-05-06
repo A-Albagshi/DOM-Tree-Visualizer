@@ -32,6 +32,8 @@ class Node {
     }
 }
 
+
+
 let arr = new Array();
 let layer = 0;
 let path;
@@ -221,7 +223,7 @@ function createAttrRect(eleNode) {
 }
 
 canvas.addEventListener('mousemove', (e) => {
-    onNode(e.offsetX, e.offsetY);
+    // onNode(e.offsetX, e.offsetY);
 });
 
 function onNode(mouseX, mouseY) {
@@ -248,4 +250,49 @@ function onNode(mouseX, mouseY) {
             }
         }
     }
+}
+
+
+canvas.addEventListener('dblclick', (e) => {
+    appendChild(e.x, e.y)
+})
+
+function appendChild(mouseX, mouseY) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].length; j++) {
+            const eleNode = arr[i][j];
+            let marginLeftX = eleNode.x - (radius);
+            let marginRightX = eleNode.x + (radius);
+
+            let marginBottomY = eleNode.y - (radius);
+            let marginTopY = eleNode.y + (radius);
+
+            if (mouseX <= marginRightX &&
+                mouseX >= marginLeftX &&
+                mouseY <= marginTopY &&
+                mouseY >= marginBottomY
+            ) {
+                let newChild = prompt("Enter new tag");
+                if (!newChild) {
+                    alert("Please enter valid tag")
+                    return;
+                }
+                let newNode = document.createElement(newChild);
+                console.log("test")
+                console.log(eleNode.element)
+                eleNode.element.appendChild(newNode)
+                clearAll()
+            }
+        }
+    }
+}
+
+function clearAll() {
+    context.clearRect(0, 0, cnvWidth, cnvWidth);
+    y = 50;
+    arr = new Array()
+    layer = 0;
+    bodyNode = new Node(document);
+    nodesToArr(bodyNode);
+    drawTree();
 }
