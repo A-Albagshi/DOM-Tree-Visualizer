@@ -18,12 +18,12 @@ class Node {
     y;
     children;
     parent;
-    isActive;
+    isVisible;
     constructor(element, parent = null) {
         this.element = element;
         this.children = [];
         this.parent = parent;
-        this.isActive = true;
+        this.isVisible = true;
     }
 }
 
@@ -92,22 +92,35 @@ function drawTree() {
                 context.fillStyle = 'White';
                 context.textAlign = 'center';
                 context.fillText(nodeName, eleNode.x, eleNode.y);
-                context.fillStyle = (eleNode.isActive) ? 'green' : 'red';
+                context.fillStyle = (eleNode.isVisible) ? 'green' : 'red';
                 context.rect(x - radius * 1.35, y, 15, 15);
-                context.fillText(eleNode.isActive ? "+" : "-", x - radius * 1.35 + 7, y + 10);
+                context.fillText(eleNode.isVisible ? "+" : "-", x - radius * 1.35 + 7, y + 10);
             }
 
-
-
-            // Line Drawing
             context.moveTo(eleNode.parent.x, eleNode.parent.y);
             context.lineTo(eleNode.x, eleNode.y);
             context.stroke();
-
-
-
         }
     }
-
-
 }
+
+function contains(ClickX, ClickY) {
+    console.log(ClickX)
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].length; j++) {
+            const eleNode = arr[i][j];
+            console.log(eleNode)
+                // if ()
+                // console.log(element.x - radius * 1.35 + 7)
+                // if (ClickX > element.x) {
+                //     console.log("test")
+                // }
+                // console.log(element.x)
+        }
+    }
+}
+
+canvas.addEventListener("click", (e) => {
+    contains(e.offsetX, e.offsetY)
+    console.log("test")
+})
